@@ -1,0 +1,487 @@
+/* ============================================================
+   site.css  |  Layout, components, motion
+   Consumes tokens from base.css. Never hardcodes a color or font.
+   ============================================================ */
+
+.shell {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1rem;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 60, 'WONK' 1, 'opsz' 20;
+  font-size: var(--step-1);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.03em;
+}
+
+.brand:hover { color: var(--ember); }
+
+.site-nav ul {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.25rem);
+  align-items: center;
+}
+
+.site-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-decoration: none;
+  padding-block: 0.35rem;
+  position: relative;
+  transition: color 0.25s var(--ease-out);
+}
+
+.site-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.site-nav a:hover { color: var(--ink); }
+.site-nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.site-nav a[aria-current='page'] { color: var(--ink); }
+.site-nav a[aria-current='page']::after { transform: scaleX(1); }
+
+/* Mobile nav toggle. Hidden on desktop, revealed under 40rem. */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+@media (max-width: 40rem) {
+  /* Progressive enhancement. The collapsed nav exists only when the .js class
+     is present, and an inline script in <head> adds that class before first
+     paint. With JavaScript disabled the toggle button stays hidden and the nav
+     renders as a plain stacked list, so navigation always works. */
+  .js .nav-toggle { display: block; }
+
+  .js .site-nav {
+    display: none;
+    width: 100%;
+    order: 3;
+  }
+
+  .js .site-nav.is-open { display: block; }
+
+  .site-nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding-block: 1rem 1.25rem;
+  }
+  .site-header__inner { flex-wrap: wrap; }
+}
+
+#main {
+  scroll-margin-top: 4.5rem;
+}
+
+/* ---------- Sections ---------- */
+
+.section { padding-block: clamp(1.85rem, 4.5vw, 3.25rem); }
+
+.section__head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: clamp(1.1rem, 2.2vw, 1.6rem);
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+
+.section__head h2 { font-size: var(--step-3); }
+
+.section__head .u-label { margin-left: auto; white-space: nowrap; }
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  margin-top: clamp(1.5rem, 3.5vw, 2.5rem);
+  padding-block: 1.4rem 1.85rem;
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.site-footer a { color: var(--ink-muted); text-decoration: none; }
+.site-footer a:hover { color: var(--ember); }
+
+/* ---------- Reveal ----------
+   The hidden state is gated on .js, which the inline script in <head> adds
+   before first paint. With JavaScript disabled nothing is ever hidden, and
+   because the class lands before paint there is no flash of visible content
+   collapsing into its hidden state.
+
+   reveal.js is responsible for immediately revealing everything if
+   IntersectionObserver is unavailable, so this hidden state can never
+   become permanent. */
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.75s var(--ease-out) var(--reveal-delay, 0ms),
+    transform 0.75s var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] { opacity: 1; transform: none; }
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  min-height: min(54vh, 33rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(1.35rem, 3.5vw, 2.25rem);
+}
+
+.hero__eyebrow { margin-bottom: clamp(0.45rem, 1.2vw, 0.7rem); }
+
+.hero__name {
+  font-size: var(--step-6);
+  font-variation-settings: 'SOFT' 30, 'WONK' 1, 'opsz' 144;
+  font-weight: 500;
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  margin-bottom: clamp(0.7rem, 1.6vw, 1rem);
+}
+
+/* The surname drops to a lighter optical weight and ember fill,
+   so the name reads as one typographic object rather than two words. */
+.hero__name em {
+  display: block;
+  font-style: normal;
+  color: var(--ember);
+  font-variation-settings: 'SOFT' 90, 'WONK' 1, 'opsz' 144;
+  font-weight: 300;
+  padding-left: 0.09em;
+}
+
+/* ---------- Currently ---------- */
+
+.currently__list { display: grid; gap: 1px; background: var(--rule); }
+
+.currently__item {
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  gap: 0.35rem 2rem;
+  padding-block: 0.7rem;
+  align-items: start;
+}
+
+@media (max-width: 46rem) {
+  .currently__item { grid-template-columns: 1fr; }
+}
+
+.currently__role {
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 50, 'WONK' 1, 'opsz' 30;
+  font-size: var(--step-1);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.currently__org { color: var(--ember); }
+
+.currently__body { color: var(--ink-muted); max-width: var(--measure); }
+
+/* ---------- Jump links ---------- */
+
+.jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--rule-strong);
+  padding: 0.7rem 1.2rem;
+  border-radius: 2px;
+  transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out), background 0.3s var(--ease-out);
+}
+
+.jump:hover {
+  border-color: var(--ember);
+  color: var(--ember);
+  background: color-mix(in srgb, var(--ember) 8%, transparent);
+}
+
+.jump span { transition: transform 0.3s var(--ease-out); }
+.jump:hover span { transform: translateX(4px); }
+
+.jump-row { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+
+/* ---------- Experience ledger ---------- */
+
+.ledger { display: grid; }
+
+.entry {
+  display: grid;
+  grid-template-columns: minmax(0, 10rem) minmax(0, 1fr);
+  gap: 0.5rem 2.5rem;
+  padding: clamp(0.9rem, 1.8vw, 1.25rem) 0 clamp(0.9rem, 1.8vw, 1.25rem) 1.25rem;
+  border-top: 1px solid var(--rule);
+  border-left: 2px solid transparent;
+  transition: border-left-color 0.35s var(--ease-out), background 0.35s var(--ease-out);
+}
+
+.entry:last-child { border-bottom: 1px solid var(--rule); }
+
+.entry:hover {
+  border-left-color: var(--ember);
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+
+@media (max-width: 46rem) {
+  .entry { grid-template-columns: 1fr; gap: 0.75rem; }
+}
+
+.entry__rail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  align-items: flex-start;
+  padding-top: 0.35rem;
+}
+
+.entry__date {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: -0.02em;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+
+.entry__role {
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 45, 'WONK' 1, 'opsz' 40;
+  font-size: var(--step-2);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 0.15rem;
+}
+
+.entry__org { color: var(--ember); }
+
+.entry__meta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.9rem;
+}
+
+.entry__body li {
+  position: relative;
+  padding-left: 1.15rem;
+  margin-bottom: 0.65rem;
+  max-width: var(--measure);
+  color: color-mix(in srgb, var(--ink) 82%, transparent);
+}
+
+.entry__body li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.65em;
+  width: 5px; height: 5px;
+  background: var(--moss);
+  border-radius: 50%;
+}
+
+.entry__body li:last-child { margin-bottom: 0; }
+
+/* ---------- Tags ---------- */
+
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  color: var(--ink-muted);
+  line-height: 1;
+}
+
+.tag--incoming { color: var(--moss); border-color: color-mix(in srgb, var(--moss) 45%, transparent); }
+.tag--award { color: var(--ember); border-color: var(--ember-dim); }
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+
+/* ---------- About ---------- */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+
+@media (max-width: 52rem) {
+  .about-grid { grid-template-columns: 1fr; }
+}
+
+.prose p {
+  font-size: var(--step-0);
+  color: color-mix(in srgb, var(--ink) 86%, transparent);
+  margin-bottom: 1.15em;
+}
+
+/* Opening paragraph carries more weight, like a magazine standfirst */
+.prose p:first-of-type {
+  font-size: var(--step-1);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.sidecard {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  padding: clamp(1.25rem, 3vw, 1.85rem);
+}
+
+.sidecard + .sidecard { margin-top: 1.25rem; }
+
+.sidecard h3 {
+  font-size: var(--step-1);
+  margin-bottom: 0.35rem;
+}
+
+.sidecard__meta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  letter-spacing: -0.02em;
+  line-height: 1.6;
+}
+
+.sidecard__meta strong { color: var(--ember); font-weight: 500; }
+
+.skills__group { margin-bottom: 1.5rem; }
+.skills__group:last-child { margin-bottom: 0; }
+.skills__group .u-label { display: block; margin-bottom: 0.7rem; }
+
+.contact-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 2.2vw, 1.15rem);
+  letter-spacing: -0.05em;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ember-dim);
+  padding-bottom: 0.2rem;
+  transition: color 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+}
+
+.contact-link:hover { color: var(--ember); border-color: var(--ember); }
+
+/* ---------- Projects ---------- */
+
+.project {
+  display: grid;
+  grid-template-columns: minmax(0, 4rem) minmax(0, 1fr);
+  gap: 0 clamp(1rem, 3vw, 2.5rem);
+  padding-block: clamp(1.05rem, 2.2vw, 1.55rem);
+  border-top: 1px solid var(--rule);
+  position: relative;
+}
+
+.project:last-child { border-bottom: 1px solid var(--rule); }
+
+@media (max-width: 40rem) {
+  .project { grid-template-columns: 1fr; gap: 0.5rem; }
+}
+
+.project__index {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  letter-spacing: -0.02em;
+  padding-top: 0.55rem;
+  transition: color 0.35s var(--ease-out);
+}
+
+.project:hover .project__index { color: var(--ember); }
+
+.project__title {
+  font-size: var(--step-2);
+  font-variation-settings: 'SOFT' 45, 'WONK' 1, 'opsz' 60;
+  margin-bottom: 0.6rem;
+}
+
+.project__body p { color: color-mix(in srgb, var(--ink) 82%, transparent); }
+
+/* Featured project gets a raised surface and an ember edge */
+.project--featured {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--ember);
+  padding-inline: clamp(1.25rem, 3vw, 2rem);
+  margin-bottom: 1.4rem;
+}
+
+.project--featured .project__title { font-size: var(--step-3); }

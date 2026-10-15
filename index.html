@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Justin Haime</title>
+  <meta name="description" content="Justin Haime, data science and business administration at Northeastern University.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/site.css">
+  <!-- Adds the .js class before first paint so CSS can enhance progressively.
+       Without this, the mobile nav must stay visible rather than collapse. -->
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <a class="u-visually-hidden" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell site-header__inner">
+      <a class="brand" href="index.html">Justin Haime</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+      <nav class="site-nav" id="primary-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="experience.html">Experience</a></li>
+          <li><a href="projects.html">Projects</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero shell">
+      <p class="u-label hero__eyebrow" data-reveal>Boston, Massachusetts</p>
+      <h1 class="hero__name" data-reveal data-reveal-delay="1">
+        Justin
+        <em>Haime</em>
+      </h1>
+      <div class="jump-row" data-reveal data-reveal-delay="2">
+        <a class="jump" href="experience.html">Experience <span>&rarr;</span></a>
+        <a class="jump" href="projects.html">Projects <span>&rarr;</span></a>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="section__head" data-reveal>
+        <h2>Currently</h2>
+        <span class="u-label">Oct 2026</span>
+      </div>
+      <div class="currently__list">
+
+        <article class="currently__item" data-reveal>
+          <h3 class="currently__role">Founder &amp; Technical Lead<br><span class="currently__org">CometDQ</span></h3>
+          <p class="currently__body">
+            A data quality platform for midmarket companies. The test engine runs on the
+            client's own infrastructure. Only metadata reaches the hosted dashboard.
+          </p>
+        </article>
+
+        <article class="currently__item" data-reveal>
+          <h3 class="currently__role">Research Assistant<br><span class="currently__org">Structural Futures Lab</span></h3>
+          <p class="currently__body">
+            I build models that estimate how much carbon is locked up in Massachusetts
+            buildings, and how much we can trust those numbers. The work runs under PI
+            Demi Fang.
+          </p>
+        </article>
+
+        <article class="currently__item" data-reveal>
+          <h3 class="currently__role">Research Assistant<br><span class="currently__org">Wide Area AR Lab</span></h3>
+          <p class="currently__body">
+            I build a cooperative AR system under PI Wallace Lages. One responder marks a
+            hazard or a victim with wearable glasses, and every teammate sees that target
+            highlighted in their own view.
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell site-footer__inner">
+      <span class="u-label">Justin Haime, Boston MA</span>
+      <a class="u-mono" href="mailto:justinihaime@gmail.com">justinihaime@gmail.com</a>
+    </div>
+  </footer>
+
+  <script src="js/reveal.js" defer></script>
+</body>
+</html>

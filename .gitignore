@@ -1,0 +1,16 @@
+# OS
+Thumbs.db
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Source documents (not part of the published site)
+*.docx
+
+# SDD scratch workspace
+.superpowers/
+
+# Internal build notes, kept local
+docs/
